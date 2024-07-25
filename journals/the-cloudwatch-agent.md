@@ -180,3 +180,49 @@ When you navigate the log group, you will observe the log streams in the CloudWa
 This verifies that the manual agent installation was successful and we are able to succesfully gather additional metrics from the EC2 instance, in addition to collecting logs from the web server.
 
 As a part of `Well-Architected` best practices, it would be good to leverage an automated agent rollout rather than a manual installation. We already generated the configuration file required for the configuration from the manual installation and stored it in AWS SSM Parameter Store. Let’s continue with the installation and configuration of the CloudWatch agent using AWS Systems Manager.
+
+### Automated installation using AWS Systems Manager
+
+To begin this section, please proceed with the new EC2 instance built along with the IIS installation, which was previously covered as part of the prerequisites. Next, let’s see how to install the agent using Systems Manager:
+
+1. **Set up IAM roles:** Create an IAM role with policies of `AmazonEC2RoleforSSM` and `CloudWatchAgentServerPolicy`. This will enable you to manage the EC2 instance using AWS Systems Manager and gather custom metrics and logs from the EC2 instances in CloudWatch.
+
+- IAM roles provide the permission to publish the custom metrics gathered by the agent to the CloudWatch metrics and logs service.
+
+- Let’s go ahead and create a new IAM role named `CWAgentRole`. Please refer to the instructions in the manual installation on how to create a role and add the `AmazonEC2roleforSSM`, `AmazonSSMManagedInstanceCore` and `CloudWatchAgentServerPolicy` policies and create a new IAM role named CWAgentRole. Then attach it to the newly created instance.
+
+2. **Installation of the agent:** We will run the AWS-ConfigureAWSPackage command and install the CloudWatch agent on the target EC2 instances.
+
+- To install the CloudWatch agent using Systems Manager, do the following:
+
+  - Navigate to `Systems Manager`
+  - Under `Node Management`, select `Run Command` | `Run a Command`
+  - Under `Command document`, select `AWS-ConfigureAWSPackage`, and leave the Document Version to Default
+  - Provide the name of the package to Install as `AmazonCloudWatchAgent` and select the `Choose instances manually` option and then select the newly created AWS EC2 Instance and uncheck `Enable an S3 bucket`
+  - Once submitted, verify that the installation is successful
+
+  ![installed](/imgs/installed.png)
+
+3. **Create and store a configuration file:** If you have skipped manual installation, please generate the configuration file as described in step 3 of the Manual installation and configuration of the CloudWatch agent section or download it from the repository and create it as a parameter in AWS Systems Manager’s Parameter Store. You can find the configuration file (AmazonCloudWatch-windows.json) on Github: https://github.com/uedwinc/cloudwatch-observability-ec2/blob/main/AmazonCloudWatch-windows.json.
+
+4. **Starting the agent:** The process of starting the CloudWatch agent using AWS System manager can be accomplished by running the SSM AmazonCloudWatch-ManageAgent document with the saved configuration file in AWS SSM Parameter Store and starting the agent in the EC2 instances to be monitored.
+
+- Let’s start the CloudWatch agent using the AWS SSM document:
+
+  - Select `Run command` | 
+  - Under `Command document`, search and select `AmazonCloudWatch-ManageAgent`.
+  - Provide the Parameter file from Parameter Store as `AmazonCloudWatch-windows` in the `Optional Configuration Location` field
+
+  ![agent-configure](/imgs/agent-configure.png)
+
+  - Select `Choose instances manually`, select the newly created instance, and configure the agent with the parameters created as per the JSON file. 
+  - Unselect `Enable an S3 bucket` and leave the remaining values at the default. Then click `Run`.
+  - Verify that the agent configuration is successful
+
+  ![agent-installed](/imgs/agent-installed.png)
+
+  - When you navigate to the CloudWatch metrics, you should be able to see the instance sending the custom CloudWatch metrics.
+
+  ![instance-metrics](/imgs/instance-metrics.png)
+
+We have successfully installed and configured the CloudWatch agent using AWS Systems Manager.
