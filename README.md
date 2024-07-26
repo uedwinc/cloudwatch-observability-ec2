@@ -8,4 +8,6 @@
 
 The `/journals` directory contains
 
-- [ ] [Cloudwatch Agent Setup](journals/the-cloudwatch-agent.md) for gathering custom metrics and logs
+- [ ] [Cloudwatch Agent Setup](journals/setup-cloudwatch-agent.md) for gathering custom metrics and logs
+
+- [ ] [Setup CloudWatch Alarms](journals/setup-cloudwatch-alarm.md) for the monitored EC2 instance and send notifications via email using AWS SNS
