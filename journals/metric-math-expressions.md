@@ -157,3 +157,19 @@ The following screenshot shows a view of the target response time view of the lo
 
 This provides a view to visualize breaches above the threshold value to understand issues quickly.
 
+> You can also choose to add this to the dashboard
+
+## 6. CloudWatch search expressions
+
+Search expressions in metric math help you to search and group metrics across multiple CloudWatch metric namespaces. Search expressions will help you query and quickly add multiple related metrics to a graph. They also enable you to create dynamic graphs that automatically add metrics to their display, even if those metrics don’t exist when you first create the graph. This will be especially useful when you are transferring CloudWatch dashboards/queries to a new AWS account.
+
+If you would like to understand the overall size of the S3 buckets in the AWS account, we can use the metric math `SEARCH()` and `SUM()` functions to achieve the required functionality. Here is the search query that will provide a sum of the size of all the buckets in an AWS account:
+
+```
+SUM(SEARCH('{AWS/S3,BucketName,StorageType} MetricName="BucketSizeBytes"', 'Sum', 300))
+```
+
+You can see the sum of S3 buckets
+
+![s3-buckets-sum](/imgs/s3-buckets-sum.png)
+
