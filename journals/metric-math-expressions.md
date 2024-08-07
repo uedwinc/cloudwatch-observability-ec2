@@ -127,3 +127,33 @@ Now, you can add to dashboard and save
 
 ![curr-dash](/imgs/curr-dash.png)
 
+## 5. Highlighting latency above SLAs
+
+Another powerful usage of the `IF()` function is to highlight the values that are outside of SLAs without monitoring every data point. This makes it easy to spot breaches of SLAs at a glance. This will be especially helpful for metrics related to latency, availability, and so on. 
+
+You can create visualization for target response time breaches in a load balancer using the metric math, as follows:
+
+1. TargetResponseTime: Select the metric for which you would like to visualize SLA breaches.
+
+Go to `Browse` | `AWS namespaces` | `ApplicationELB` | `Per AppELB Metrics`, and select the `TargetResponseTime` metric. Change the Statistic to `Sum`. The id will be `n2`.
+
+2. SLA: Define the SLA value of the metric in the time series.
+
+Click on `Add math` | `All functions`, and choose `TIME_SERIES`. Change the `Details` to `TIME_SERIES(0.004)`. Edit the label to `sla` and the id to `sla`.
+
+3. Below SLA: Provides time series metrics that are below the SLA.
+
+Click on `Add math` | `All functions`, and choose `IF`. Change the `Details` to `IF(n2<sla,n2)`. Edit the label to `belowsla` and the id to `e2`.
+
+4. Above SLA: Highlights the time series that are above the SLA.
+
+Click on `Add math` | `All functions`, and choose `IF`. Change the `Details` to `IF(n2>sla,n2)`. Edit the label to `abovesla` and the id to `e1`.
+
+![targetresponsetime](/imgs/targetresponsetime.png)
+
+The following screenshot shows a view of the target response time view of the load balancer outside the defined SLA:
+
+![aboveandbelow](/imgs/aboveandbelow.png)
+
+This provides a view to visualize breaches above the threshold value to understand issues quickly.
+
