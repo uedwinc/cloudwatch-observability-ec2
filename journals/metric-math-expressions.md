@@ -32,3 +32,24 @@ Given the metric `m1`, we can use the `PERIOD()` function to divide the values o
 
 This `PERIOD()` function is useful for calculating capacity-related metrics such as `TPS on Elastic Block Store (EBS)` volumes, as well as for measuring `I/O`(bytes written to disk per second, etc).
 
+## 2. Horizontal and vertical annotations
+
+The `horizontal annotation` feature provides a quick visual representation of metrics crossing the predefined values, such as SLA limits, offering valuable context for understanding metric values. You can add lines to represent important key values on the y axis. For example, defining maximum and minimum values expected for metrics. This will be especially useful in application operations by incorporating tacit knowledge into dashboards.
+
+If you are visualizing the time series as a part of the x axis, `vertical annotations` will be useful to mark events that happened over time and bring tacit knowledge to dashboards. 
+
+Let’s add annotations to the widget created earlier under "Capacity calculation for metrics".
+
+1. Navigate to `Options` tab and click on `Add horizontal annotation`. Enter `Min Limit` for label and set value at `1000`. Click `Add horizontal annotation` again, enter `Max Limit` for label and set value at `10000`.
+
+2. Also, add a vertical annotation called `MajorChange`
+
+![annotations](/imgs/annotations.png)
+
+3. Then, update the widget.
+
+![ann-dash](/imgs/ann-dash.png)
+
+By using vertical annotations in this example, the operations team can quickly reference historical data points and determine any changes in the application. 
+
+By using horizontal annotation, we mapped the expected maximum and minimum threshold. This brings tacit operational knowledge onto the dashboard.
