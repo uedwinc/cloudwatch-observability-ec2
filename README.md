@@ -18,4 +18,6 @@ The `/journals` directory contains
 
 - [ ] [Subscribe to Amazon EventBridge](journals/subscribe-amazon-eventbridge.md) for an EC2 state change
 
-- [ ] [Using CloudWatch metrics explorer](journals/cloudwatch-metrics-explorer.md) to build a dynamic dashboard for an Auto Scaling web server group
+- [ ] [Use CloudWatch metrics explorer](journals/cloudwatch-metrics-explorer.md) to build a dynamic dashboard for an Auto Scaling web server group
+
+- [ ] [Use metric math expressions](journals/metric-math-expressions.md) to query many CloudWatch metrics and use mathematical expressions to derive meaningful insights from them and create new metrics

@@ -24,6 +24,10 @@ aws cloudformation deploy \
 
 ![ec2autoscalingdeploy-stack](/imgs/ec2autoscalingdeploy-stack.png)
 
+See the application via the load balancer DNS:
+
+![launched](/imgs/launched.png)
+
 To effectively plan for capacity, let’s say we need to understand the combined utilization of these two instances. Using the CloudWatch metrics explorer, we will merge metrics from both instances to gain a comprehensive understanding of their usage.
 
 2. Navigate to `AWS Console` | `CloudWatch` | `Metrics` | `Explorer`. Metrics explorer provides two different templates – namely, `generic templates` and `service-based templates`, or you can select an `empty explorer`.
