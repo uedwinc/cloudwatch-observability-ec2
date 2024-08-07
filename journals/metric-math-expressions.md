@@ -74,3 +74,56 @@ You can see that the **ProcessedBytes** metric is missing values at certain inte
 
 ![filled-linear](/imgs/filled-linear.png)
 
+## 4. Dynamic threshold based on the weekend and weekdays
+
+By utilizing metric math functions, we can create alarms with custom thresholds based on the time and day of the week. This is especially useful for scenarios where traffic patterns vary, such as heavy traffic during weekdays compared to weekends.
+
+We can use metric math functions to define a variable alarm threshold based on the weekend and weekdays. The `IF()` function is powerful, given that you can combine multiple functions to create complex nested expressions. 
+
+This example shows how to combine `IF` and `TIME_SERIES()` and set an alarm based on the time of the day.
+
+1. Metric: Select any metric that you like to calculate dynamic alarms. 
+
+Go to `Browse` | `AWS namespaces` | `ApplicationELB` | `Per AppELB Metrics`, and select the `ActiveConnectionCount` metric. Change the Statistic to `Average`.
+
+2. Weekday: Select the threshold you would like to set for the metric on weekdays. 
+
+Click on `Add math` | `All functions`, and choose `TIME_SERIES`. Change the `Details` to `TIME_SERIES(1)`. Edit the label to `weekday` and the id to `weekday`. Also, edit the id of the `ActiveConnectionCount` to `metric`.
+
+> ActiveConnectionCount on the ALB is set to 1 on weekdays.
+> CPU utilization >70% should be represented as TIME_SERIES (70) if you are using CPUUtilization metric.
+
+3. Weekend: Select the threshold you would like to set for the metric at the weekend. 
+
+Click on `Add math` | `All functions`, and choose `TIME_SERIES`. Change the `Details` to `TIME_SERIES(2)`. Edit the label to `weekend` and the id to `weekend`.
+
+> ActiveConnectionCount on the ALB is set to 2 on weekends.
+> Expecting more traffic over the weekend. CPU utilization >90% should be represented as TIME SERIES (90).
+
+4. Dynamic: This function determines whether a given date and time falls within the weekend or weekday category, using the following criteria: If the date falls on a Sunday, or is after 2 AM on a Saturday, it is considered part of the weekend till 8AM on Monday. Otherwise, the date is categorized as a weekday, and the respective weekday threshold is used.
+
+Click on `Add math` | `All functions`, and choose `IF`. Change the `Details` to `IF(((DAY(weekday) == 7 OR (DAY(weekday) == 6 AND HOUR(weekday) > 2) ) OR (HOUR(weekday) < 8 AND DAY(weekday) == 1)) , weekend, weekday)`. Edit the label to `dynamic` and the id to `dynamic`.
+
+5. Alarm: Set the alarm value to 0 if the metric is below the threshold and 1 if above the threshold. You need to set up notifications when the alarm state has the value of 1.
+
+Click on `Add math` | `All functions`, and choose `IF`. Change the `Details` to `IF(metric <= dynamic, 0,1)`. Edit the label to `alarm` and the id to `alarm`.
+
+![active-conn-count](/imgs/active-conn-count.png)
+
+You can see from the graph below that it does not trigger the weekday threshold alarm when `ActiveConnectionCount=1`, which is equal to or less than the configured threshold of 1.
+
+![conn-count-1](/imgs/conn-count-1.png)
+
+Whereas, the alarm was triggered when the value was `ActiveConnectionCount=2`, which is higher than the configured threshold of 1 for weekdays.
+
+![conn-count-2](/imgs/conn-count-2.png)
+
+This way, you can configure different thresholds based on the different days of the week and avoid false alarms.
+
+> I didn't get to test this on a weekend
+> You can use the "Create alarm" bell icon in front of the alarm metric to setup notification for when the alarm state has the value of 1.
+
+Now, you can add to dashboard and save
+
+![curr-dash](/imgs/curr-dash.png)
+
