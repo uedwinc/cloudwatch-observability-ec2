@@ -21,3 +21,5 @@ The `/journals` directory contains
 - [ ] [Use CloudWatch metrics explorer](journals/cloudwatch-metrics-explorer.md) to build a dynamic dashboard for an Auto Scaling web server group
 
 - [ ] [Use metric math expressions](journals/metric-math-expressions.md) to query many CloudWatch metrics and use mathematical expressions to derive meaningful insights from them and create new metrics
+
+- [ ] [Use CloudWatch anomaly detection](journals/cloudwatch-anomaly-detection.md) to automate, accelerate, and improve the detection of abnormal system and application behavior
