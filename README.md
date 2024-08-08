@@ -23,3 +23,5 @@ The `/journals` directory contains
 - [ ] [Use metric math expressions](journals/metric-math-expressions.md) to query many CloudWatch metrics and use mathematical expressions to derive meaningful insights from them and create new metrics
 
 - [ ] [Use CloudWatch anomaly detection](journals/cloudwatch-anomaly-detection.md) to automate, accelerate, and improve the detection of abnormal system and application behavior
+
+- [ ] [Explore CloudWatch application insights](journals/cloudwatch-application-insights.md) to automatically discover and configure application-specific monitoring
