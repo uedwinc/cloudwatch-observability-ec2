@@ -27,3 +27,5 @@ The `/journals` directory contains
 - [ ] [Explore CloudWatch application insights](journals/cloudwatch-application-insights.md) to automatically discover and configure application-specific monitoring
 
 - [ ] [Explore CloudWatch log insights](journals/cloudwatch-log-insights.md) for querying log groups
+
+- [ ] [Use Cloudwatch contributor insights](journals/cloudwatch-contributor-insights.md) to know the top contributors to a specific log group(s) or natively supported AWS services such as DynamoDB
