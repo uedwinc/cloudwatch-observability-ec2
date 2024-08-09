@@ -25,3 +25,5 @@ The `/journals` directory contains
 - [ ] [Use CloudWatch anomaly detection](journals/cloudwatch-anomaly-detection.md) to automate, accelerate, and improve the detection of abnormal system and application behavior
 
 - [ ] [Explore CloudWatch application insights](journals/cloudwatch-application-insights.md) to automatically discover and configure application-specific monitoring
+
+- [ ] [Explore CloudWatch log insights](journals/cloudwatch-log-insights.md) for querying log groups
